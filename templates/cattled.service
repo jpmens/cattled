@@ -1,0 +1,16 @@
+[Unit]
+Description=Ansible demo cattle service
+After=network.target
+#StartLimitIntervalSec=5
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=nobody
+ExecStart={{ daemon }}
+StartLimitInterval=5
+LimitNOFILE=128
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# PROVIDE: cattled
+# REQUIRE: NETWORKING
+
+. /etc/rc.subr
+
+name="cattled"
+desc="Cow info server"
+rcvar="cattled_enable"
+
+load_rc_config $name
+: ${cattled_enable:=no}
+: ${cattled_msg="Nothing started."}
+
+cattled_bin="{{ daemon }}"
+cattled_pid="/var/run/${name}.pid"
+
+command=/usr/sbin/daemon
+command_args="-u nobody -p $cattled_pid $cattled_bin"
+
+run_rc_command "$1"
