@@ -87,8 +87,14 @@ func cow(w http.ResponseWriter, r *http.Request) {
 	n := r1.Intn(len(cows))
 	cows[n].Id = n
 
-	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(cows[n])
+	js, err := json.Marshal(cows[n])
+	if err != nil {
+		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
 }
 
 func handleRequests() {
