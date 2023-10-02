@@ -106,6 +106,7 @@ func cow(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
+	fmt.Fprintf(w, "\n")
 }
 
 // copied from https://stackoverflow.com/questions/21936332/
