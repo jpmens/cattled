@@ -1,5 +1,7 @@
 ## cattled
 
+a miniscule http server for Ansible and AWX trainings in order to test the `uri` module and custom credentials.
+
 ```console
 $ ansible alice -m uri -a "url=http://localhost:10000/cow"
 alice | SUCCESS => {
