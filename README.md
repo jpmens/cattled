@@ -22,3 +22,17 @@ alice | SUCCESS => {
     "url": "http://localhost:10000/cow"
 }
 ```
+
+### with basic auth (`/secret`)
+
+return a `text/plain` payload which also contains the hostname
+
+```console
+$ curl -i -u cow:moo localhost:10000/secret
+HTTP/1.1 200 OK
+Date: Mon, 02 Oct 2023 10:16:52 GMT
+Content-Length: 41
+Content-Type: text/plain; charset=utf-8
+
+Here is the magic ...: rabbit.ww.mens.de
+```

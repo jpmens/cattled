@@ -6,12 +6,23 @@ package main
 // JPMens November 2021 for Ansible training
 
 import (
+	"crypto/subtle"
 	"encoding/json"
 	"fmt"
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"time"
+)
+
+var (
+	// yes, password is hard-coded
+	// yes, I know
+	// yes, this is for toying with the Ansible uri module only
+	// no, I will never use this in production
+	username = "cow"
+	password = "moo"
 )
 
 type Cow struct {
@@ -97,9 +108,46 @@ func cow(w http.ResponseWriter, r *http.Request) {
 	w.Write(js)
 }
 
+// copied from https://stackoverflow.com/questions/21936332/
+// BasicAuth wraps a handler requiring HTTP basic auth for it using the given
+// username and password and the specified realm, which shouldn't contain quotes.
+//
+// Most web browser display a dialog with something like:
+//
+//    The website says: "<realm>"
+//
+// Which is really stupid so you may want to set the realm to a message rather than
+// an actual realm.
+
+func BasicAuth(handler http.HandlerFunc, username, password, realm string) http.HandlerFunc {
+
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		user, pass, ok := r.BasicAuth()
+
+		if !ok || subtle.ConstantTimeCompare([]byte(user), []byte(username)) != 1 || subtle.ConstantTimeCompare([]byte(pass), []byte(password)) != 1 {
+			w.Header().Set("WWW-Authenticate", `Basic realm="`+realm+`"`)
+			w.WriteHeader(401)
+			w.Write([]byte("Unauthorised.\n"))
+			return
+		}
+
+		handler(w, r)
+	}
+}
+
+func secret(w http.ResponseWriter, r *http.Request) {
+	myhostname, _ := os.Hostname()
+
+	fmt.Fprintln(w, "Here is the magic ...:", myhostname)
+}
+
 func handleRequests() {
 	http.HandleFunc("/", homePage)
 	http.HandleFunc("/cow", cow)
+	http.HandleFunc("/secret",
+		BasicAuth(secret, username, password, "Moo are you?"))
+
 	log.Fatal(http.ListenAndServe(":10000", nil))
 }
 
