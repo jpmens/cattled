@@ -1,6 +1,6 @@
 FROM docker.io/golang:alpine AS builder
-LABEL name="wpmqtt"
-LABEL description="Woodpecker-CI MQTT notifyer"
+LABEL name="cattled"
+LABEL description="Cattled Info Server"
 LABEL maintainer="Jan-Piet Mens <jp@mens.de>"
 MAINTAINER "Jan-Piet Mens <jp@mens.de>"
 ARG   BUILD_DATE
