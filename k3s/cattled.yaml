@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: cattled
-        image: git.jpmens.org/jpm/cattled:2.1
+        image: git.jpmens.org/jpm/cattled:2.2
         ports:
           - containerPort: 10000
 ---

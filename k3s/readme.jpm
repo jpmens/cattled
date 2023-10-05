@@ -11,6 +11,6 @@ cattled-86d9577cf8-kkpdq   1/1     Running       0             12s
 $ curl http://cattled.ansilab.de:8080/cow
 {"id":38,"breed":"Montbéliarde","origin":"France"}
 
-$ curl -u cow:moo http://cattled.ansilab.de:8080/secret
+$ curl -u cow:milk http://cattled.ansilab.de:8080/secret
 
 $ kubectl delete -f cattled.yaml

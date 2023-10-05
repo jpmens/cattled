@@ -22,13 +22,19 @@ var (
 	// yes, this is for toying with the Ansible uri module only
 	// no, I will never use this in production
 	username = "cow"
-	password = "moo"
+	password = "milk"
 )
 
 type Cow struct {
 	Id     int    `json:"id"`
 	Breed  string `json:"breed"`
 	Origin string `json:"origin"`
+}
+
+type Cowrhyme struct {
+	Url      string `json:"url"`
+	Rhyme    string `json:"rhyme"`
+	Instance string `json:"instance"`
 }
 
 func homePage(w http.ResponseWriter, r *http.Request) {
@@ -139,8 +145,16 @@ func BasicAuth(handler http.HandlerFunc, username, password, realm string) http.
 
 func secret(w http.ResponseWriter, r *http.Request) {
 	myhostname, _ := os.Hostname()
+	var cowrhyme = Cowrhyme{
+		Url:      "https://en.wikipedia.org/wiki/Hey_Diddle_Diddle",
+		Rhyme:    "Hey diddle diddle, The cat and the fiddle, The cow jumped over the moon",
+		Instance: myhostname,
+	}
 
-	fmt.Fprintln(w, "Here is the magic ...:", myhostname)
+	js, _ := json.Marshal(cowrhyme)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+	fmt.Fprintf(w, "\n")
 }
 
 func handleRequests() {

@@ -30,11 +30,11 @@ alice | SUCCESS => {
 return a `text/plain` payload which also contains the hostname
 
 ```console
-$ curl -i -u cow:moo localhost:10000/secret
+$ curl -i -u cow:milk localhost:10000/secret
 HTTP/1.1 200 OK
-Date: Mon, 02 Oct 2023 10:16:52 GMT
-Content-Length: 41
-Content-Type: text/plain; charset=utf-8
+Content-Type: application/json
+Date: Thu, 05 Oct 2023 14:49:37 GMT
+Content-Length: 163
 
-Here is the magic ...: rabbit.ww.mens.de
+{"url":"https://en.wikipedia.org/wiki/Hey_Diddle_Diddle","rhyme":"Hey diddle diddle, The cat and the fiddle, The cow jumped over the moon","instance":"rabbit"}
 ```
