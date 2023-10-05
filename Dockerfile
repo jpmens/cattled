@@ -1,4 +1,10 @@
 FROM docker.io/golang:alpine AS builder
+LABEL name="wpmqtt"
+LABEL description="Woodpecker-CI MQTT notifyer"
+LABEL maintainer="Jan-Piet Mens <jp@mens.de>"
+MAINTAINER "Jan-Piet Mens <jp@mens.de>"
+ARG   BUILD_DATE
+LABEL build_date=$BUILD_DATE
 
 # RUN apk update && apk add --no-cache git
 RUN apk update
