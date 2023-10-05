@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cattled
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cattled
+  template:
+    metadata:
+      labels:
+        app: cattled
+    spec:
+      containers:
+      - name: cattled
+        image: git.jpmens.org/jpm/cattled:2.1
+        ports:
+          - containerPort: 10000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cattled
+  namespace: default
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 10000
+  selector:
+    app: cattled
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cattled-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+
+spec:
+  rules:
+  - host: cattled.ansilab.de
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: cattled
+              port:
+                number: 8080
