@@ -1,0 +1,16 @@
+$ kubectl apply -f cattled.yaml
+
+$ kubectl get deployments
+NAME      READY   UP-TO-DATE   AVAILABLE   AGE
+cattled   0/1     1            0           4m36s
+
+$ kubectl get pods
+NAME                       READY   STATUS        RESTARTS      AGE
+cattled-86d9577cf8-kkpdq   1/1     Running       0             12s
+
+$ curl http://cattled.ansilab.de:8080/cow
+{"id":38,"breed":"Montbéliarde","origin":"France"}
+
+$ curl -u cow:moo http://cattled.ansilab.de:8080/secret
+
+$ kubectl delete -f cattled.yaml
